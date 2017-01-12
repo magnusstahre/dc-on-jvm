@@ -76,6 +76,22 @@ public class DC {
                         mv.visitMethodInsn(INVOKESTATIC, "java/lang/Double", "valueOf", "(D)Ljava/lang/Double;", false);
                         mv.visitMethodInsn(INVOKEVIRTUAL, "java/util/ArrayDeque", "push", "(Ljava/lang/Object;)V", false);
                         break;
+                    case "-":
+                        mv.visitVarInsn(ALOAD, 1);
+                        mv.visitMethodInsn(INVOKEVIRTUAL, "java/util/ArrayDeque", "pop", "()Ljava/lang/Object;", false);
+                        mv.visitTypeInsn(CHECKCAST, "java/lang/Double");
+                        mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Double", "doubleValue", "()D", false);
+                        mv.visitVarInsn(DSTORE, 2);
+                        mv.visitVarInsn(ALOAD, 1);
+                        mv.visitVarInsn(ALOAD, 1);
+                        mv.visitMethodInsn(INVOKEVIRTUAL, "java/util/ArrayDeque", "pop", "()Ljava/lang/Object;", false);
+                        mv.visitTypeInsn(CHECKCAST, "java/lang/Double");
+                        mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Double", "doubleValue", "()D", false);
+                        mv.visitVarInsn(DLOAD, 2);
+                        mv.visitInsn(DSUB);
+                        mv.visitMethodInsn(INVOKESTATIC, "java/lang/Double", "valueOf", "(D)Ljava/lang/Double;", false);
+                        mv.visitMethodInsn(INVOKEVIRTUAL, "java/util/ArrayDeque", "push", "(Ljava/lang/Object;)V", false);
+                        break;
                     }
                 }
             }
