@@ -69,6 +69,9 @@ public class DC {
                     case "*":
                         simplyBinaryOp(mv, DMUL);
                         break;
+                    case "/":
+                        simplyBinaryOp(mv, DDIV);
+                        break;
                     }
                 }
             }
