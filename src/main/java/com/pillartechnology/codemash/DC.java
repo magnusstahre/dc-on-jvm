@@ -5,6 +5,7 @@ import org.objectweb.asm.MethodVisitor;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Scanner;
 
 import static org.objectweb.asm.Opcodes.*;
 
@@ -29,6 +30,8 @@ public class DC {
         mv.visitMethodInsn(INVOKESPECIAL, "java/util/ArrayDeque", "<init>", "()V", false);
         mv.visitVarInsn(ASTORE, 1);
 
+        readStuff(mv);
+
         mv.visitInsn(RETURN);
 
         mv.visitMaxs(0, 0);
@@ -36,5 +39,32 @@ public class DC {
 
         cw.visitEnd();
         return cw.toByteArray();
+    }
+
+    private static void readStuff(MethodVisitor mv) {
+        Scanner scanner = new Scanner(System.in);
+        try {
+            while (scanner.hasNext()) {
+                if (scanner.hasNextDouble()) {
+                    mv.visitVarInsn(ALOAD, 1);
+                    mv.visitLdcInsn(scanner.nextDouble());
+                    mv.visitMethodInsn(INVOKESTATIC, "java/lang/Double", "valueOf", "(D)Ljava/lang/Double;", false);
+                    mv.visitMethodInsn(INVOKEVIRTUAL, "java/util/ArrayDeque", "push", "(Ljava/lang/Object;)V", false);
+                } else {
+                    String op = scanner.next();
+
+                    switch(op) {
+                    case "p":
+                        mv.visitFieldInsn(GETSTATIC, "java/lang/System", "out", "Ljava/io/PrintStream;");
+                        mv.visitVarInsn(ALOAD, 1);
+                        mv.visitMethodInsn(INVOKEVIRTUAL, "java/util/ArrayDeque", "peek", "()Ljava/lang/Object;", false);
+                        mv.visitMethodInsn(INVOKEVIRTUAL, "java/io/PrintStream", "println", "(Ljava/lang/Object;)V", false);
+                        break;
+                    }
+                }
+            }
+        } finally {
+            scanner.close();
+        }
     }
 }
