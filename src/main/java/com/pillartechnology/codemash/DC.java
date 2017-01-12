@@ -1,6 +1,7 @@
 package com.pillartechnology.codemash;
 
 import org.objectweb.asm.ClassWriter;
+import org.objectweb.asm.MethodVisitor;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -20,6 +21,12 @@ public class DC {
     private static byte[] dcIfy() {
         ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_MAXS | ClassWriter.COMPUTE_FRAMES);
         cw.visit(V1_5, ACC_PUBLIC + ACC_SUPER, "DC", null, "java/lang/Object", null);
+
+        MethodVisitor mv = cw.visitMethod(ACC_PUBLIC + ACC_STATIC, "main", "([Ljava/lang/String;)V", null, null);
+        mv.visitCode();
+        mv.visitInsn(RETURN);
+        mv.visitEnd();
+
         cw.visitEnd();
         return cw.toByteArray();
     }
