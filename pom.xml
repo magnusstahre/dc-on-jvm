@@ -3,4 +3,11 @@
   <groupId>com.pillartechnology.codemash</groupId>
   <artifactId>bytecode-dc</artifactId>
   <version>1-SNAPSHOT</version>
+  <dependencies>
+      <dependency>
+          <groupId>org.ow2.asm</groupId>
+          <artifactId>asm</artifactId>
+          <version>5.2</version>
+      </dependency>
+  </dependencies>
 </project>
