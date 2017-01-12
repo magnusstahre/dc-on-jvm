@@ -24,7 +24,14 @@ public class DC {
 
         MethodVisitor mv = cw.visitMethod(ACC_PUBLIC + ACC_STATIC, "main", "([Ljava/lang/String;)V", null, null);
         mv.visitCode();
+        mv.visitTypeInsn(NEW, "java/util/ArrayDeque");
+        mv.visitInsn(DUP);
+        mv.visitMethodInsn(INVOKESPECIAL, "java/util/ArrayDeque", "<init>", "()V", false);
+        mv.visitVarInsn(ASTORE, 1);
+
         mv.visitInsn(RETURN);
+
+        mv.visitMaxs(0, 0);
         mv.visitEnd();
 
         cw.visitEnd();
