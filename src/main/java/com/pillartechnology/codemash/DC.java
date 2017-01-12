@@ -71,6 +71,11 @@ public class DC {
                     case "/":
                         simplyBinaryOp(mv, DDIV);
                         break;
+                    case "^":
+                        pop2(mv);
+                        mv.visitMethodInsn(INVOKESTATIC, "java/lang/Math", "pow", "(DD)D", false);
+                        push(mv);
+                        break;
                     }
                 }
             }
