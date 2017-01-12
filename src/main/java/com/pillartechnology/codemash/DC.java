@@ -48,8 +48,7 @@ public class DC {
                 if (scanner.hasNextDouble()) {
                     mv.visitVarInsn(ALOAD, 1);
                     mv.visitLdcInsn(scanner.nextDouble());
-                    mv.visitMethodInsn(INVOKESTATIC, "java/lang/Double", "valueOf", "(D)Ljava/lang/Double;", false);
-                    mv.visitMethodInsn(INVOKEVIRTUAL, "java/util/ArrayDeque", "push", "(Ljava/lang/Object;)V", false);
+                    push(mv);
                 } else {
                     String op = scanner.next();
 
@@ -81,6 +80,17 @@ public class DC {
     }
 
     private static void simplyBinaryOp(MethodVisitor mv, int op) {
+        pop2(mv);
+        mv.visitInsn(op);
+        push(mv);
+    }
+
+    private static void push(MethodVisitor mv) {
+        mv.visitMethodInsn(INVOKESTATIC, "java/lang/Double", "valueOf", "(D)Ljava/lang/Double;", false);
+        mv.visitMethodInsn(INVOKEVIRTUAL, "java/util/ArrayDeque", "push", "(Ljava/lang/Object;)V", false);
+    }
+
+    private static void pop2(MethodVisitor mv) {
         mv.visitVarInsn(ALOAD, 1);
         mv.visitMethodInsn(INVOKEVIRTUAL, "java/util/ArrayDeque", "pop", "()Ljava/lang/Object;", false);
         mv.visitTypeInsn(CHECKCAST, "java/lang/Double");
@@ -92,8 +102,5 @@ public class DC {
         mv.visitTypeInsn(CHECKCAST, "java/lang/Double");
         mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Double", "doubleValue", "()D", false);
         mv.visitVarInsn(DLOAD, 2);
-        mv.visitInsn(op);
-        mv.visitMethodInsn(INVOKESTATIC, "java/lang/Double", "valueOf", "(D)Ljava/lang/Double;", false);
-        mv.visitMethodInsn(INVOKEVIRTUAL, "java/util/ArrayDeque", "push", "(Ljava/lang/Object;)V", false);
     }
 }
